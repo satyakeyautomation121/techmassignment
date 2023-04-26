@@ -3,10 +3,7 @@ package org.generic;
 import com.opencsv.CSVReader;
 
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ReadValuesFromCSVAndAddToMap {
     public static List<Map<String, String>> data = new ArrayList<>();
@@ -23,7 +20,7 @@ public class ReadValuesFromCSVAndAddToMap {
             // read each row and add to list of maps
             String[] line;
             while ((line = reader.readNext()) != null) {
-                Map<String, String> map = new HashMap<>();
+                Map<String, String> map = new LinkedHashMap<>();
                 for (int i = 0; i < header.length; i++) {
                     map.put(header[i], line[i]);
                 }

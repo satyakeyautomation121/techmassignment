@@ -12,16 +12,6 @@ import java.util.Map;
 
 public class ReadData extends GenerateReport {
 
-    /*@Test()
-    public void readdataFromAllFiles(){
-        test=extent.createTest("ReadData From all files ");
-        String[] allcsvs={"DataVerify","PositionDetailsFile","OutputFile"};
-        for(int i=0;i<allcsvs.length;i++){
-            List<Map<String, String>> dataverify= ReadValuesFromCSVAndAddToMap.readDataFromC(allcsvs[i]);
-            test.log(Status.PASS, "From File is =" + allcsvs[i] + " :- And The Datas are " +String.valueOf(dataverify));
-            ReadValuesFromCSVAndAddToMap.data.clear();
-        }
-    }*/
     @Test
     public void compareData(){
         test=extent.createTest("ReadData From all files ");
@@ -31,24 +21,51 @@ public class ReadData extends GenerateReport {
         test.log(Status.PASS,String.valueOf(pdf));
         List<Map<String, String>> opf=ReadValuesFromCSVAndAddToMap.readDataFromOutputCSV("OutputFile");
         test.log(Status.PASS,String.valueOf(opf));
-        String univvalue=null;
         String dvisin=null;
+        String univvalue=null;
         for(int i=0;i<opf.size();i++){
-            univvalue=dv.get(i).get("UnitPrice");
-            dvisin=dv.get(i).get("ISIN");
             String pdfidval=pdf.get(i).get("ID");
-            String pdfqtyval=pdf.get(i).get("Quantity");
             String opfpid=opf.get(i).get("PositionID");
             String opfisin=opf.get(i).get("ISIN");
             String opfqty=opf.get(i).get("Quantity");
             String opftp=opf.get(i).get("TotalPrice(Qty * Unit Price)");
-            String tpvalu=opftp.split("=")[1];
-            if(dvisin.equalsIgnoreCase(opfisin) && pdfidval.equalsIgnoreCase(opfpid)){
-                Assert.assertEquals( Integer.parseInt(univvalue) * Integer.parseInt(pdfqtyval), Integer.parseInt(tpvalu.trim()));
+
+
+
+            //take opfpid from opf and then
+            //compare it with pdfidval
+            //at that time get the values, pdfidval related instrument id, and quantity from pdf
+            //retrive the isin no and unitprice from dv
+
+            //
+
+            if(opfpid.equalsIgnoreCase(pdfidval)){
+                String pdfinstid= pdf.get(i).get("Instrument ID");
+                String pdfqtyval=pdf.get(i).get("Quantity");
+               // if(i==dv.size()){
+                    dvisin=dv.get(i).get("ISIN");
+                    univvalue =dv.get(i).get("UnitPrice");
+                //}else{
+
+                //}
+
+                if(opfisin.equalsIgnoreCase(dvisin)){
+                    int twofileinputvalue = Integer.parseInt(pdfqtyval) * Integer.parseInt(univvalue);
+                    Assert.assertEquals(twofileinputvalue,Integer.parseInt(opftp));
+                    test.log(Status.PASS," Data From Instrument Details and Position Details " + twofileinputvalue +" Is Equal To  "+ Integer.parseInt(opftp)) ;
+                }
+
+            }
+
+
+
+
+           /* if(dvisin.equalsIgnoreCase(opfisin) && pdfidval.equalsIgnoreCase(opfpid)){
+                Assert.assertEquals( Integer.parseInt(univvalue) * Integer.parseInt(pdfqtyval), Integer.parseInt(opftp.trim()));
                 test.log(Status.PASS,"Comparision Passed");
             }else{
                 test.log(Status.FAIL," Comparision Failed");
-            }
+            }*/
         }
     }
 }

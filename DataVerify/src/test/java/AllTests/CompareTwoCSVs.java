@@ -13,7 +13,7 @@ import java.util.List;
 
 public class CompareTwoCSVs extends GenerateReport {
     @Test
-    public static void twoCSVCompare() throws IOException {
+    public static void threeCSVCompare() throws IOException {
         test=extent.createTest("Two CSV File Compare");
         CSVReader reader1 = new CSVReader(new FileReader(System.getProperty("user.dir")+"/src/test/resources/DataVerify.csv"));
         CSVReader reader2 = new CSVReader(new FileReader(System.getProperty("user.dir")+"/src/test/resources/PositionDetailsFile.csv"));

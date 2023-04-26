@@ -11,9 +11,9 @@ public class GenerateReport {
 
     ExtentHtmlReporter htmlReporter;
 
-   public ExtentReports extent;
+   public static ExtentReports extent;
     //helps to generate the logs in the test report.
-    public ExtentTest test;
+    public static ExtentTest test;
 
     @BeforeTest
     public void startReport() {
